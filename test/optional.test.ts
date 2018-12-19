@@ -22,4 +22,24 @@ describe("optional", () => {
         optional.ifPresent(() => value = 1);
         expect(value).toBe(0);
     });
+
+    it("defines behavior of Optional of nullable", () => {
+        let nullOptional = Optional.ofNullable(null);
+        expect(nullOptional.get()).toBe(null);
+        expect(nullOptional.isPresent()).toBe(true);
+        expect(nullOptional.isEmpty()).toBe(false);
+        expect(nullOptional.map(() => "text").get()).toBe("text");
+        let value1 = 0;
+        nullOptional.ifPresent(() => value1 = 1);
+        expect(value1).toBe(1);
+
+        let undefinedOptional = Optional.ofNullable(undefined);
+        expect(() => undefinedOptional.get()).toThrowError();
+        expect(undefinedOptional.isPresent()).toBe(false);
+        expect(undefinedOptional.isEmpty()).toBe(true);
+        expect(undefinedOptional.map(() => "text").isEmpty()).toBe(true);
+        let value2 = 0;
+        undefinedOptional.ifPresent(() => value2 = 1);
+        expect(value2).toBe(0);
+    });
 });
